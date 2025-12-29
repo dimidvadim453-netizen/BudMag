@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS Bundle (включає Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+           <!-- Style CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    
+
+</head>
+<body>
+
+{% include 'menu.html' %}
+
+<div class="container mt-4">
+    <h1>Каталог товарів</h1>
+
+    <div class="row">
+
+        <!-- ЛІВО: категорії -->
+        <div class="col-md-3">
+            <div class="accordion" id="categoriesAccordion">
+            {% for cat in categories %}
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ cat.id }}">
+                  <button class="accordion-button {% if not current_subcategory or current_subcategory not in cat.subcategories|map(attribute='id') %}collapsed{% endif %}" 
+                          type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapse{{ cat.id }}" aria-expanded="true" aria-controls="collapse{{ cat.id }}">
+                    {{ cat.name }}
+                  </button>
+                </h2>
+                <div id="collapse{{ cat.id }}" class="accordion-collapse collapse 
+                    {% if current_subcategory and current_subcategory in cat.subcategories|map(attribute='id') %}show{% endif %}"
+                     aria-labelledby="heading{{ cat.id }}" data-bs-parent="#categoriesAccordion">
+                  <div class="accordion-body p-0">
+                    <ul class="list-group list-group-flush">
+                      {% for sub in cat.subcategories %}
+                      <li class="list-group-item
+                          {% if current_subcategory == sub.id %}active{% endif %}">
+                        <a href="{{ url_for('subcategory', id=sub.id) }}"
+                           class="text-decoration-none
+                           {% if current_subcategory == sub.id %}
+                               text-white
+                           {% else %}
+                               text-dark
+                           {% endif %}">
+                            {{ sub.name }}
+                        </a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+        </div>
+
+        <!-- ПРАВО: товари -->
+        <div class="col-md-9">
+            <div class="row">
+
+                {% if products %}
+                    {% for p in products %}
+                    <div class="col-md-4">
+                        <div class="card mb-3 h-100">
+
+                            {% if p.image %}
+                            <img src="{{ url_for('static', filename=p.image) }}"
+                                 class="card-img-top">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='img/no-image.png') }}"
+                                 class="card-img-top">
+                            {% endif %}
+
+                            <div class="card-body">
+                                <h5>
+                                  <a href="{{ url_for('product', id=p.id) }}" class="text-decoration-none">
+                                    {{ p.name }}
+                                  </a>
+                                </h5>
+                                <p>{{ p.price }} грн</p>
+
+                                <a href = "{{ url_for('add_to_cart', id=p.id) }}"
+                                    class = "btn btn-success btn-sm">
+                                    Купити
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Оберіть підкатегорію або скористайтесь пошуком</p>
+                {% endif %}
+
+                {% if not products %}
+                <hr class="my-5">
+                <h3 class="text-center mb-4">Популярні товари</h3>
+                <div class="row justify-content-center">
+                    {% for p in popular %}
+                    <div class="col-md-3">
+                        <div class="card mb-3 h-100">
+                            <img src="{{ url_for('static', filename=p.image or 'img/no-image.png') }}"
+                                 class="card-img-top">
+                            <div class="card-body text-center">
+                                <h6>{{ p.name }}</h6>
+                                <p>{{ p.price }} грн</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

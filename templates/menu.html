@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='logoo.png') }}" width="140" height="60">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('catalog') }}">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('cart') }}">Кошик</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('contacts') }}">Контакти</a></li>
+      <form class="d-flex" method="get" action="{{ url_for('search') }}">
+        <input class="form-control me-2"
+               type="search"
+               name="q"
+               placeholder="Пошук товарів"
+               required>
+        <button class="btn btn-outline-success" type="submit">
+          Пошук
+        </button>
+      </form>
+      </ul>
+    </div>
+
+  </div>
+</nav>
