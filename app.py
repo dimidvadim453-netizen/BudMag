@@ -53,7 +53,7 @@ def add_to_cart(id):
     session["cart"] = cart
     return redirect(url_for("cart"))
 
-@app.route("/cart")
+@app.route("/cart", methods=["GET", "POST"])
 def cart():
     cart = get_cart()
     if not cart:
@@ -73,6 +73,27 @@ def cart():
         s = qty * p["price"]
         total += s
         items.append({**p, "qty": qty, "sum": s})
+
+    if request.method == "POST":
+        name = request.form["name"]
+        phone = request.form["phone"]
+        address = request.form["address"]
+        comment = request.form["comment"]
+
+        conn = get_db()
+        
+        order_id = conn.execute(
+            "INSERT INTO orders (name, phone, address, comment, total_price) VALUES(?,?,?,?,?)",
+            (name, phone, address, comment, total)
+        ).lastrowid
+        for item in items:
+            conn.execute("INSERT INTO order_products (order_id, product_id, quantity) VALUES(?,?,?)",
+                         (order_id, item["id"], item["qty"])
+                         )
+        conn.commit()
+        conn.close()
+        session['cart'] = {}
+        return redirect("/order_confirmation")
 
     return render_template("cart.html", products=items, total=total)
 
@@ -168,6 +189,10 @@ def add_comment(id):
 def contacts():
     return render_template("contacts.html")
 
+@app.route("/order_confirmation")
+def order_confirmation():
+    return render_template("order_confirmation.html")
+
 @app.route("/search")
 def search():
     q = request.args.get("q", "").strip()
@@ -177,7 +202,7 @@ def search():
     conn = get_db()
     products = conn.execute(
         "SELECT * FROM products WHERE name LIKE ? COLLATE NOCASE",
-        (f"%{q}%",)
+        ["%"+q+"%"]
     ).fetchall() or []
     conn.close()
 

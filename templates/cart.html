@@ -96,18 +96,19 @@
       </div>
 
       <div class="modal-body">
-        <form>
-          <input class="form-control mb-2" placeholder="Ваше імʼя" required>
-          <input class="form-control mb-2" placeholder="Телефон" required>
-          <input class="form-control mb-2" placeholder="Адреса доставки">
-          <textarea class="form-control" placeholder="Коментар"></textarea>
-        </form>
+        <form action="" method="POST">
+          <input name="name" required class="form-control mb-2" placeholder="Ваше імʼя" required>
+          <input name="phone" required class="form-control mb-2" placeholder="Телефон" required>
+          <input name="address" required class="form-control mb-2" placeholder="Адреса доставки">
+          <textarea name="comment" class="form-control" placeholder="Коментар"></textarea>
+  
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-success" data-bs-dismiss="modal">
+        <button type='submit' class="btn btn-success">
           Підтвердити замовлення
         </button>
+      </form>
       </div>
 
     </div>
