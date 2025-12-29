@@ -195,18 +195,35 @@ def order_confirmation():
 
 @app.route("/search")
 def search():
-    q = request.args.get("q", "").strip()
-    if not q:
-        return redirect(url_for("catalog"))
+    q = request.args.get("q", "").strip().lower()
 
     conn = get_db()
-    products = conn.execute(
-        "SELECT * FROM products WHERE name LIKE ? COLLATE NOCASE",
-        ["%"+q+"%"]
+
+    categories = conn.execute(
+        "SELECT * FROM categories"
     ).fetchall() or []
+
+    all_products = conn.execute(
+        "SELECT * FROM products"
+    ).fetchall() or []
+
+    if q:
+        products = [
+            p for p in all_products
+            if q in p["name"].lower()
+        ]
+    else:
+        products = all_products
+
     conn.close()
 
-    return render_template("catalog.html", products=products)
+    return render_template(
+        "catalog.html",
+        categories=categories,
+        products=products,
+        current_category=None
+    )
+    return render_template("catalog.html", product=product)
 # ---------- RUN ----------
 
 if __name__ == "__main__":
