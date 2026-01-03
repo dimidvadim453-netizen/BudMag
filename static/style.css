@@ -2,3 +2,159 @@
     height: 200px;
     object-fit: cover;
 }
+:root {
+    --orange: #ff7a00;
+    --black: #111111;
+    --white: #ffffff;
+    --gray: #f5f5f5;
+}
+
+/* Загальний фон */
+body {
+    background-color: var(--gray);
+    color: var(--black);
+}
+
+/* NAVBAR */
+.navbar {
+    background-color: var(--white) !important;
+    border-bottom: 3px solid var(--orange);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--black) !important;
+}
+
+.navbar-brand span {
+    color: var(--orange);
+}
+
+/* Посилання меню */
+.navbar .nav-link {
+    color: var(--black) !important;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: var(--orange) !important;
+}
+
+/* Пошук */
+.navbar input[type="search"] {
+    border: 2px solid var(--orange);
+}
+
+.navbar button {
+    background-color: var(--orange);
+    border: none;
+    color: var(--white);
+}
+
+.navbar button:hover {
+    background-color: #e86f00;
+}
+
+/* Заголовки */
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+/* Каталог */
+/* Accordion кнопка: базовий стан */
+.accordion-button {
+    background-color: var(--white);   
+    color: var(--black);              
+    box-shadow: none;                 
+}
+
+/* Коли категорія розгорнута */
+.accordion-button:not(.collapsed) {
+    background-color: var(--white);   
+    color: var(--black);              
+    box-shadow: none;                 
+}
+
+/* Hover */
+.accordion-button:hover {
+    background-color: #f5f5f5;       
+    color: var(--black);
+}
+
+/* Focus */
+.accordion-button:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+/* Ліва колонка (категорії) */
+
+.list-group-item {
+    border: none;
+    border-left: 4px solid transparent;
+    background-color: var(--white);
+    color: var(--black)
+}
+
+.list-group-item:hover {
+    border-left: 4px solid var(--orange);
+    background-color: #fff3e6;
+    color: var(--black)
+}
+
+.list-group-item.active {
+    background-color: var(--black);
+    border-left: 4px solid var(--orange);
+    color: var(--black) !important;
+    font-weight: 600;
+}
+
+/* Картки товарів */
+.card {
+    margin-bottom: 30px;
+    border: 1px solid #ddd;        /* світло-сіра рамка */
+    border-radius: 10px;           /* закруглені кути */
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Hover ефект */
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+/* Зображення */
+.card-img-top {
+    object-fit: contain;
+    height: 200px;
+    padding: 15px;
+}
+
+/* Заголовок */
+.card-body h5 {
+    font-size: 16px;
+    min-height: 48px;
+}
+
+/* Ціна */
+.card-body p {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Кнопка Купити */
+.btn-success {
+    background-color: var(--orange);
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #e86f00;
+}
+
+/* КОШИК */
+.table th {
+    background-color: var(--orange);
+    color: var(--white);
+}
+
